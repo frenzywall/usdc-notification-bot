@@ -1,0 +1,8 @@
+# GraphQL schema for The Graph
+type Transfer @entity {
+  id: ID!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  timestamp: BigInt!
+}

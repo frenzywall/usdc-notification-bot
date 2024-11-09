@@ -1,0 +1,26 @@
+# Main subgraph configuration
+specVersion: 0.0.4
+description: "Subgraph for tracking USDC transfers on Sepolia"
+repository: "https://github.com/username/usdc-transfer-tracker"
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: USDC
+    network: sepolia
+    source:
+      address: "<USDC_CONTRACT_ADDRESS>"
+      abi: USDC
+      startBlock: <START_BLOCK_NUMBER>
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: USDC
+          file: ./abis/USDC.json
+      eventHandlers:
+        - event: Transfer(indexed address, indexed address, uint256)
+          handler: handleTransfer

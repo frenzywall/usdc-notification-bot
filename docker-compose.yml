@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  subgraph:
+    build: ./subgraph
+    environment:
+      IPFS_API_HOST: "http://ipfs:5001"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_DB: "graph"
+      POSTGRES_USER: "graph"
+      POSTGRES_PASSWORD: "letmein"
+    depends_on:
+      - ipfs
+      - postgres
+    networks:
+      - app-network
+
+  ipfs:
+    image: ipfs/go-ipfs:latest
+    ports:
+      - "5001:5001"
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: graph
+      POSTGRES_USER: graph
+      POSTGRES_PASSWORD: letmein
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
